@@ -1,36 +1,43 @@
 Privacy Policy for MediPro Manager
-Last Updated: February 20, 2026
+Last Updated: February 22, 2026
 
 This Privacy Policy describes how MediPro Manager ("the App"), developed by Bimal Lamichhane, collects, uses, and shares information when you use our mobile application.
 
 1. Information Collection and Use
-To provide a personalized experience, the App requires you to provide certain identifiable information during the initial setup:
+To provide a secure and personalized SaaS experience, the App collects the following information:
 
-Pharmacy Details: Pharmacy Name, Government Registration Number, and Landline Number.
+Pharmacy Details: Pharmacy Name, PAN/VAT Number, Address, and Contact Number provided during setup.
 
-Contact Information: Admin Email ID and Facebook Page Link.
+Authentication Data: We use Google Sign-In to authenticate pharmacy owners. We collect your basic profile information (Email, Name) provided by Google.
 
-Business Data: Information regarding Products, Suppliers, and Debtors that you manually enter into the system.
+Business Data: Information regarding Products, Stock, Suppliers, and Debtors that you manually enter or import via Excel.
 
 2. Data Storage and Security
-Local Storage: All sensitive business data, including your inventory and debtor lists, is stored locally on your device using SharedPreferences and secure local databases.
+Cloud Infrastructure: Your business data is securely synced and stored in Google Firebase (Cloud Firestore). This ensures your data is safe and accessible across multiple devices.
 
-No PIN Policy: As per user preference, the App uses your registered Pharmacy Name and Email ID for authentication instead of a PIN.
+Encryption: All data transmitted between the App and the cloud is encrypted.
 
-Data Persistence: Data is encoded in JSON format to ensure it remains intact even after the App is closed or restarted.
+Local Storage: Temporary files, such as Excel exports or JSON backups, are stored in the App's secure temporary directory and are cleared as needed.
 
-3. Third-Party Services
-The App may utilize third-party services that have their own privacy policies:
+No PIN Policy: Access is controlled via your registered Google Account and Pharmacy UID, ensuring that only authorized owners can access their specific pharmacy records.
 
-WhatsApp/SMS/Call: The App provides features to contact debtors via these external applications.
+3. Data Sharing and Third-Party Services
+We do not sell your data. We only facilitate data transfer for the following features:
 
-Excel Sync: The App allows importing and exporting data via Excel files for your convenience.
+Communication: Features that allow you to contact debtors via WhatsApp, SMS, or Call.
 
-4. Developer Transparency
-This App is developed and maintained by Bimal Lamichhane, a Google Developer based in Bharatpur, Chitwan, Nepal. You can find the developer profile directly within the App under the "Developer Profile" section.
+Sync & Backup: Integration with Excel and JSON for manual data import/export.
 
-5. Contact the Developer
-If you have any questions or suggestions about this Privacy Policy, do not hesitate to contact:
+Firebase Services: We use Google Firebase for database management and user authentication.
+
+4. Data Deletion Rights
+Users have the right to request the deletion of their entire pharmacy account and associated data. You may contact the developer via the information provided below to initiate a data deletion request.
+
+5. Developer Transparency
+This App is developed and maintained by Bimal Lamichhane, a Google Developer based in Bharatpur, Nepal. You can find more information in the "Developer Profile" section within the App.
+
+6. Contact Information
+If you have any questions or suggestions regarding this Privacy Policy, please contact:
 
 Developer: Bimal Lamichhane
 
