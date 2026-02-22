@@ -40,7 +40,6 @@ This App is developed and maintained by Bimal Lamichhane, a Google Developer bas
 If you have any questions or suggestions regarding this Privacy Policy, please contact:
 
 Developer: Bimal Lamichhane
-
 Phone: +977 9855065327
 
 Email: admin@bimalpharmacy.com.np
