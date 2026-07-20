@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <cache-path name="cache" path="." />
+    <cache-path name="invoices" path="invoices/" />
+    <external-path name="medipro_invoices" path="Documents/MediPro/Invoices/" />
+    <external-files-path name="medipro_invoices_app" path="Documents/MediPro/Invoices/" />
+</paths>

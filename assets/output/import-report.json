@@ -1,0 +1,495 @@
+{
+  "generatedAt": "2026-07-19T04:26:43.240Z",
+  "summary": {
+    "catalogTotal": 271044,
+    "excelTotal": 7423,
+    "imported": 7423,
+    "matched": 7376,
+    "missing": 47,
+    "duplicatesRemoved": 2116,
+    "priceUpdated": 7261,
+    "unknownGeneric": 4977,
+    "unknownManufacturer": 4868,
+    "needsReview": 4977,
+    "enrichedFromCatalog": 2116
+  },
+  "matchTypes": {
+    "exact-brand": 7345,
+    "missing": 47,
+    "brand+strength": 22,
+    "brand-label": 2,
+    "token-match": 7
+  },
+  "missingSamples": [
+    {
+      "rowNum": 740,
+      "productName": "RITEOCEFF 200MG",
+      "salesPrice": 20
+    },
+    {
+      "rowNum": 6335,
+      "productName": "SUGAMETRIX INJ",
+      "salesPrice": 1370.88
+    },
+    {
+      "rowNum": 7346,
+      "productName": "CAMPRO POWDER",
+      "salesPrice": 1856
+    },
+    {
+      "rowNum": 7347,
+      "productName": "GRON MD",
+      "salesPrice": 12.01
+    },
+    {
+      "rowNum": 7348,
+      "productName": "HEPAAID",
+      "salesPrice": 76.8
+    },
+    {
+      "rowNum": 7349,
+      "productName": "PETER INJ",
+      "salesPrice": 110
+    },
+    {
+      "rowNum": 7353,
+      "productName": "BRIVATAM INJ",
+      "salesPrice": 234.01
+    },
+    {
+      "rowNum": 7355,
+      "productName": "NEOTEAR EYE",
+      "salesPrice": 200
+    },
+    {
+      "rowNum": 7356,
+      "productName": "NEOTEAR MAX EYE",
+      "salesPrice": 249.99
+    },
+    {
+      "rowNum": 7357,
+      "productName": "PRUPRIDE-1MG",
+      "salesPrice": 25
+    },
+    {
+      "rowNum": 7358,
+      "productName": "ENTECA-B 0.5",
+      "salesPrice": 70.01
+    },
+    {
+      "rowNum": 7360,
+      "productName": "OZAPINE 2.5MG",
+      "salesPrice": 4
+    },
+    {
+      "rowNum": 7361,
+      "productName": "OZAPINE 2.5MG",
+      "salesPrice": 6.01
+    },
+    {
+      "rowNum": 7362,
+      "productName": "CURAWAY GUN",
+      "salesPrice": 8700
+    },
+    {
+      "rowNum": 7364,
+      "productName": "ACCURAN GOWN",
+      "salesPrice": 750
+    },
+    {
+      "rowNum": 7367,
+      "productName": "SICANUMB GEL",
+      "salesPrice": 0
+    },
+    {
+      "rowNum": 7369,
+      "productName": "PREGATIVE 150MG",
+      "salesPrice": 22.01
+    },
+    {
+      "rowNum": 7370,
+      "productName": "MUSTCAL XT",
+      "salesPrice": 38.4
+    },
+    {
+      "rowNum": 7372,
+      "productName": "TIROTUM INJ",
+      "salesPrice": 374.39
+    },
+    {
+      "rowNum": 7373,
+      "productName": "LUMENT Q",
+      "salesPrice": 80.01
+    },
+    {
+      "rowNum": 7377,
+      "productName": "FAMO40",
+      "salesPrice": 2.01
+    },
+    {
+      "rowNum": 7379,
+      "productName": "METHOSPAL -L 1000",
+      "salesPrice": 1172.16
+    },
+    {
+      "rowNum": 7380,
+      "productName": "MADMAX",
+      "salesPrice": 1365.32
+    },
+    {
+      "rowNum": 7381,
+      "productName": "LEEPMED BIOSPY GUN",
+      "salesPrice": 7540
+    },
+    {
+      "rowNum": 7382,
+      "productName": "BMG GOWN",
+      "salesPrice": 1495
+    },
+    {
+      "rowNum": 7383,
+      "productName": "TRUPOLY GLOVES",
+      "salesPrice": 110
+    },
+    {
+      "rowNum": 7384,
+      "productName": "BMGPLAST",
+      "salesPrice": 550
+    },
+    {
+      "rowNum": 7385,
+      "productName": "AEON 2K",
+      "salesPrice": 35.08
+    },
+    {
+      "rowNum": 7386,
+      "productName": "EVEFRESH",
+      "salesPrice": 360
+    },
+    {
+      "rowNum": 7387,
+      "productName": "DEXANOL-320",
+      "salesPrice": 4800.08
+    },
+    {
+      "rowNum": 7389,
+      "productName": "POLYDREM",
+      "salesPrice": 110.03
+    },
+    {
+      "rowNum": 7395,
+      "productName": "VOPRA 10MG",
+      "salesPrice": 15
+    },
+    {
+      "rowNum": 7396,
+      "productName": "VOPRA 20MG",
+      "salesPrice": 28
+    },
+    {
+      "rowNum": 7397,
+      "productName": "UROMED SILICONE",
+      "salesPrice": 6317.77
+    },
+    {
+      "rowNum": 7399,
+      "productName": "MICOVA",
+      "salesPrice": 47.91
+    },
+    {
+      "rowNum": 7402,
+      "productName": "WOUND PROTECTOR",
+      "salesPrice": 0
+    },
+    {
+      "rowNum": 7407,
+      "productName": "PLASMAX 500ML",
+      "salesPrice": 235
+    },
+    {
+      "rowNum": 7409,
+      "productName": "TOFACURE 5MG",
+      "salesPrice": 55
+    },
+    {
+      "rowNum": 7411,
+      "productName": "DRIFT-30",
+      "salesPrice": 2880.28
+    },
+    {
+      "rowNum": 7412,
+      "productName": "ROCUKAM INJ",
+      "salesPrice": 1450
+    },
+    {
+      "rowNum": 7413,
+      "productName": "TUMOUR MARKER WELL",
+      "salesPrice": 0
+    },
+    {
+      "rowNum": 7414,
+      "productName": "CTIME",
+      "salesPrice": 1152
+    },
+    {
+      "rowNum": 7415,
+      "productName": "NEOLIFE CRAPE",
+      "salesPrice": 342.39
+    },
+    {
+      "rowNum": 7416,
+      "productName": "NEOPLAST",
+      "salesPrice": 750
+    },
+    {
+      "rowNum": 7417,
+      "productName": "MACROPORUS MESH 30X30",
+      "salesPrice": 15797.76
+    },
+    {
+      "rowNum": 7420,
+      "productName": "ANCUMIN 500MG",
+      "salesPrice": 90.36
+    },
+    {
+      "rowNum": 7423,
+      "productName": "LIPOMIN",
+      "salesPrice": 1440
+    }
+  ],
+  "enrichedSamples": [
+    {
+      "brandName": "XELODA 500 TAB",
+      "genericName": "Capecitabine",
+      "manufacturer": "ROCHE Pharma",
+      "enrichedFrom": {
+        "legacyId": 7965,
+        "brandName": "Xeloda",
+        "genericName": "Capecitabine",
+        "manufacturer": "ROCHE Pharma"
+      }
+    },
+    {
+      "brandName": "TAMODEX 20MG TAB",
+      "genericName": "Tamoxifen (20mg)",
+      "manufacturer": "Biochem Pharmaceutical Industries",
+      "enrichedFrom": {
+        "legacyId": 224610,
+        "brandName": "Tamodex 20mg Tablet",
+        "genericName": "Tamoxifen (20mg)",
+        "manufacturer": "Biochem Pharmaceutical Industries"
+      }
+    },
+    {
+      "brandName": "INTAXEL 260MG INJ",
+      "genericName": "Paclitaxel",
+      "manufacturer": "Fresenius Kabi pharmaceuticals",
+      "enrichedFrom": {
+        "legacyId": 3792,
+        "brandName": "Intaxel 260",
+        "genericName": "Paclitaxel",
+        "manufacturer": "Fresenius Kabi pharmaceuticals"
+      }
+    },
+    {
+      "brandName": "NAPROCAP 500MG TAB",
+      "genericName": "Capecitabine (500mg)",
+      "manufacturer": "Miracalus Pharma Pvt Ltd",
+      "enrichedFrom": {
+        "legacyId": 162345,
+        "brandName": "Naprocap 500mg Tablet",
+        "genericName": "Capecitabine (500mg)",
+        "manufacturer": "Miracalus Pharma Pvt Ltd"
+      }
+    },
+    {
+      "brandName": "GEMCITE 200MG INJ",
+      "genericName": "Gemcitabine",
+      "manufacturer": "Eli Lilly And Company India Pvt Ltd",
+      "enrichedFrom": {
+        "legacyId": 3305,
+        "brandName": "Gemcite",
+        "genericName": "Gemcitabine",
+        "manufacturer": "Eli Lilly And Company India Pvt Ltd"
+      }
+    },
+    {
+      "brandName": "CARBOPLATIN 450MG INJ",
+      "genericName": "Carboplatin",
+      "manufacturer": "Pfizer Ltd.",
+      "enrichedFrom": {
+        "legacyId": 1284,
+        "brandName": "Carboplatin",
+        "genericName": "Carboplatin",
+        "manufacturer": "Pfizer Ltd."
+      }
+    },
+    {
+      "brandName": "KEMOCARB 450MG INJ",
+      "genericName": "Carboplatin",
+      "manufacturer": "Fresenius Kabi pharmaceuticals",
+      "enrichedFrom": {
+        "legacyId": 3932,
+        "brandName": "Kemocarb",
+        "genericName": "Carboplatin",
+        "manufacturer": "Fresenius Kabi pharmaceuticals"
+      }
+    },
+    {
+      "brandName": "HYDAB 500MG CAP",
+      "genericName": "Hydroxyurea (Hydroxycarbamide)",
+      "manufacturer": "DABUR INDIA LTD.",
+      "enrichedFrom": {
+        "legacyId": 3641,
+        "brandName": "Hydab",
+        "genericName": "Hydroxyurea (Hydroxycarbamide)",
+        "manufacturer": "DABUR INDIA LTD."
+      }
+    },
+    {
+      "brandName": "BIOCLOX 500MG INJ",
+      "genericName": "Cloxacillin",
+      "manufacturer": "Time Pharmaceuticals Pvt. Ltd.",
+      "enrichedFrom": {
+        "legacyId": 1069,
+        "brandName": "Bioclox 500",
+        "genericName": "Cloxacillin",
+        "manufacturer": "Time Pharmaceuticals Pvt. Ltd."
+      }
+    },
+    {
+      "brandName": "PRIMACORT 200MG INJ",
+      "genericName": "Hydrocortisone",
+      "manufacturer": "Macleods Pharmaceuticals Pvt. Ltd.",
+      "enrichedFrom": {
+        "legacyId": 6058,
+        "brandName": "Primacort 200",
+        "genericName": "Hydrocortisone",
+        "manufacturer": "Macleods Pharmaceuticals Pvt. Ltd."
+      }
+    },
+    {
+      "brandName": "CETIL 500MG TAB",
+      "genericName": "Cefuroxime",
+      "manufacturer": "Lupin Ltd.",
+      "enrichedFrom": {
+        "legacyId": 1462,
+        "brandName": "Cetil 500",
+        "genericName": "Cefuroxime",
+        "manufacturer": "Lupin Ltd."
+      }
+    },
+    {
+      "brandName": "WATER FOR INJ 5ML",
+      "genericName": "Sterile Water (NA)",
+      "manufacturer": "Albert David Ltd",
+      "enrichedFrom": {
+        "legacyId": 251264,
+        "brandName": "Water for Injection Injection",
+        "genericName": "Sterile Water (NA)",
+        "manufacturer": "Albert David Ltd"
+      }
+    },
+    {
+      "brandName": "SHELCAL -CT",
+      "genericName": "Calcium + Vitamin D3",
+      "manufacturer": "Elder Pharmaceuticals.",
+      "enrichedFrom": {
+        "legacyId": 6701,
+        "brandName": "Shelcal",
+        "genericName": "Calcium + Vitamin D3",
+        "manufacturer": "Elder Pharmaceuticals."
+      }
+    },
+    {
+      "brandName": "UMICORT 200MG-INJ",
+      "genericName": "Hydrocortisone",
+      "manufacturer": "Umedica",
+      "enrichedFrom": {
+        "legacyId": 7618,
+        "brandName": "Umicort 200",
+        "genericName": "Hydrocortisone",
+        "manufacturer": "Umedica"
+      }
+    },
+    {
+      "brandName": "CIFRAN 500MG -TAB",
+      "genericName": "Ciprofloxacin",
+      "manufacturer": "Ranbaxy Laboratories Ltd.",
+      "enrichedFrom": {
+        "legacyId": 1530,
+        "brandName": "Cifran",
+        "genericName": "Ciprofloxacin",
+        "manufacturer": "Ranbaxy Laboratories Ltd."
+      }
+    },
+    {
+      "brandName": "NOWAX EAR DROP",
+      "genericName": "Benzocaine + Chlorbutol + Paradichlorobenzene + Turpentine Oil Ear prep",
+      "manufacturer": "Biomedica International",
+      "enrichedFrom": {
+        "legacyId": 5296,
+        "brandName": "Nowax",
+        "genericName": "Benzocaine + Chlorbutol + Paradichlorobenzene + Turpentine Oil Ear prep",
+        "manufacturer": "Biomedica International"
+      }
+    },
+    {
+      "brandName": "ENCLAVE -625MG",
+      "genericName": "Amoxicillin",
+      "manufacturer": "Curex Pharmaceuticals Pvt. Ltd.",
+      "enrichedFrom": {
+        "legacyId": 2603,
+        "brandName": "Enclave",
+        "genericName": "Amoxicillin",
+        "manufacturer": "Curex Pharmaceuticals Pvt. Ltd."
+      }
+    },
+    {
+      "brandName": "OCTRIDE 100MG-INJ",
+      "genericName": "Octreotide",
+      "manufacturer": "Sun Pharmaceutical Industries Ltd.",
+      "enrichedFrom": {
+        "legacyId": 5337,
+        "brandName": "Octride",
+        "genericName": "Octreotide",
+        "manufacturer": "Sun Pharmaceutical Industries Ltd."
+      }
+    },
+    {
+      "brandName": "ANTI-THYROX -5",
+      "genericName": "Carbimazole",
+      "manufacturer": "Macleods Pharmaceuticals Pvt. Ltd.",
+      "enrichedFrom": {
+        "legacyId": 495,
+        "brandName": "Anti-Thyrox",
+        "genericName": "Carbimazole",
+        "manufacturer": "Macleods Pharmaceuticals Pvt. Ltd."
+      }
+    },
+    {
+      "brandName": "NIMS TAB",
+      "genericName": "Nimesulide",
+      "manufacturer": "Asian Pharmaceuticals Pvt. Ltd.",
+      "enrichedFrom": {
+        "legacyId": 5209,
+        "brandName": "Nims",
+        "genericName": "Nimesulide",
+        "manufacturer": "Asian Pharmaceuticals Pvt. Ltd."
+      }
+    }
+  ],
+  "duplicateRemovedSamples": [],
+  "outputs": {
+    "seedDb": {
+      "path": "G:\\medipro\\assets\\output\\seed.db",
+      "count": 7423,
+      "sizeMb": 3.19
+    },
+    "catalogDb": {
+      "path": "G:\\medipro\\assets\\output\\catalog.db",
+      "count": 271044,
+      "sizeMb": 87.94
+    }
+  }
+}

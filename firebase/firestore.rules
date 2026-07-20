@@ -1,0 +1,235 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // -------------------------------------------------------------------------
+    // Rule 7 — Master catalog (271K catalog.db) NEVER belongs in Firestore.
+    // -------------------------------------------------------------------------
+    match /catalog/{document=**} {
+      allow read, write: if false;
+    }
+    match /master_catalog/{document=**} {
+      allow read, write: if false;
+    }
+    match /catalog_medicines/{document=**} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Licenses — Cloud Functions (Admin SDK) only. Client read own license.
+    // -------------------------------------------------------------------------
+    match /licenses/{licenseId} {
+      allow read: if isAuthenticated()
+        && resource.data.firebaseUid == request.auth.uid;
+      allow create, update, delete: if false;
+    }
+
+    // Pharmacy tenant root (metadata only — no direct client writes).
+    match /pharmacies/{pharmacyUuid} {
+      allow read: if ownsPharmacy(pharmacyUuid);
+      allow write: if false;
+
+      // Rule 1–6, 8 — all synced ERP entities under a licensed pharmacy.
+      match /{collection}/{docId} {
+        allow read: if ownsPharmacy(pharmacyUuid)
+          && isAllowedSyncCollection(collection);
+
+        // Rule 4 — soft delete only (physical delete denied).
+        allow delete: if false;
+
+        allow create: if ownsPharmacy(pharmacyUuid)
+          && isAllowedSyncCollection(collection)
+          && deviceAuthorized(pharmacyUuid)
+          && validSyncCreate(pharmacyUuid, docId);
+
+        allow update: if ownsPharmacy(pharmacyUuid)
+          && isAllowedSyncCollection(collection)
+          && deviceAuthorized(pharmacyUuid)
+          && validSyncUpdate(pharmacyUuid, docId);
+      }
+    }
+
+    // Anonymous OCR feedback — structured metadata only, no raw bill text.
+    match /ocr_feedback_anonymous/{feedbackId} {
+      allow read, update, delete: if false;
+      allow create: if isAuthenticated()
+        && request.resource.data.keys().hasAll([
+          'appVersion',
+          'parserName',
+          'confidence',
+          'lineCount',
+          'ocrLanguage',
+          'normalizedText',
+          'createdAt',
+        ])
+        && request.resource.data.appVersion is string
+        && request.resource.data.parserName is string
+        && request.resource.data.confidence is int
+        && request.resource.data.confidence >= 0
+        && request.resource.data.confidence <= 100
+        && request.resource.data.lineCount is int
+        && request.resource.data.lineCount >= 0
+        && request.resource.data.ocrLanguage is string
+        && request.resource.data.normalizedText is string
+        && request.resource.data.normalizedText.size() <= 4000
+        && request.resource.data.createdAt is int
+        && !request.resource.data.keys().hasAny([
+          'sampleText',
+          'rawText',
+          'pharmacyName',
+          'pan',
+          'invoiceNumber',
+          'phoneNumber',
+          'customerName',
+          'vatAmount',
+          'totalAmount',
+        ]);
+    }
+
+    // Default deny — everything else blocked.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // =========================================================================
+    // Helper functions
+    // =========================================================================
+
+    // Rule 2 — authentication required.
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function licenseRef(pharmacyUuid) {
+      return /databases/$(database)/documents/licenses/$(pharmacyUuid);
+    }
+
+    function licenseData(pharmacyUuid) {
+      return get(licenseRef(pharmacyUuid)).data;
+    }
+
+    // Rule 1 — tenant isolation via license document (pharmacyUuid == licenseId).
+    function ownsPharmacy(pharmacyUuid) {
+      return isAuthenticated()
+        && exists(licenseRef(pharmacyUuid))
+        && licenseData(pharmacyUuid).firebaseUid == request.auth.uid
+        && licenseData(pharmacyUuid).status == 'ACTIVE'
+        && licenseData(pharmacyUuid).expiryEpochMs > request.time.toMillis()
+        && (
+          licenseData(pharmacyUuid).licenseId == pharmacyUuid
+          || licenseData(pharmacyUuid).pharmacyUuid == pharmacyUuid
+        );
+    }
+
+    // Rule 3 — registered device must match license + write payload.
+    function deviceAuthorized(pharmacyUuid) {
+      let licensedDevice = licenseData(pharmacyUuid).deviceId;
+      let payloadDevice = request.resource.data.deviceId;
+      let claimDevice = request.auth.token.deviceId;
+      return payloadDevice == licensedDevice
+        && (claimDevice == null || claimDevice == licensedDevice);
+    }
+
+    function isAllowedSyncCollection(collection) {
+      return collection in [
+        'invoices',
+        'purchases',
+        'sale_returns',
+        'purchase_returns',
+        'customers',
+        'suppliers',
+        'stock_adjustments',
+        'payments',
+        'ledger',
+        'audit_logs',
+        'medicines',
+        'stock_batches',
+        'settings',
+      ];
+    }
+
+    function hasRequiredSyncFields() {
+      return request.resource.data.keys().hasAll([
+        'uuid',
+        'entityType',
+        'createdAt',
+        'updatedAt',
+        'syncVersion',
+        'deviceId',
+        'payload',
+      ]);
+    }
+
+    function validTimestamps() {
+      return request.resource.data.createdAt is int
+        && request.resource.data.updatedAt is int
+        && request.resource.data.updatedAt >= request.resource.data.createdAt;
+    }
+
+    // Rule 5 — document id must equal uuid; licenseId must match tenant.
+    function validIdentityOnCreate(pharmacyUuid, docId) {
+      return request.resource.data.uuid == docId
+        && (!('licenseId' in request.resource.data)
+            || request.resource.data.licenseId == pharmacyUuid);
+    }
+
+    // Rule 5 — immutable fields on update.
+    function immutableOnUpdate() {
+      return request.resource.data.uuid == resource.data.uuid
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.entityType == resource.data.entityType
+        && (!('licenseId' in resource.data)
+            || request.resource.data.licenseId == resource.data.licenseId)
+        && (!('createdBy' in resource.data)
+            || request.resource.data.createdBy == resource.data.createdBy);
+    }
+
+    // Rule 6 — monotonic sync version (stale devices cannot overwrite).
+    function validSyncVersionCreate() {
+      return request.resource.data.syncVersion is int
+        && request.resource.data.syncVersion >= 1;
+    }
+
+    function validSyncVersionUpdate() {
+      return request.resource.data.syncVersion is int
+        && resource.data.syncVersion is int
+        && request.resource.data.syncVersion > resource.data.syncVersion;
+    }
+
+    // Rule 8 — branch-ready (optional until multi-branch ships).
+    function branchAllowed(pharmacyUuid) {
+      let lic = licenseData(pharmacyUuid);
+      return !('branchUuid' in request.resource.data)
+        || request.resource.data.branchUuid == null
+        || !('branchUuid' in lic)
+        || lic.branchUuid == null
+        || request.resource.data.branchUuid == lic.branchUuid;
+    }
+
+    function validSoftDeleteTransition() {
+      return !('deletedAt' in request.resource.data)
+        || request.resource.data.deletedAt == null
+        || request.resource.data.deletedAt is int;
+    }
+
+    function validSyncCreate(pharmacyUuid, docId) {
+      return hasRequiredSyncFields()
+        && validTimestamps()
+        && validSyncVersionCreate()
+        && validIdentityOnCreate(pharmacyUuid, docId)
+        && branchAllowed(pharmacyUuid)
+        && validSoftDeleteTransition();
+    }
+
+    function validSyncUpdate(pharmacyUuid, docId) {
+      return hasRequiredSyncFields()
+        && validTimestamps()
+        && validSyncVersionUpdate()
+        && immutableOnUpdate()
+        && request.resource.data.uuid == docId
+        && branchAllowed(pharmacyUuid)
+        && validSoftDeleteTransition();
+    }
+  }
+}
