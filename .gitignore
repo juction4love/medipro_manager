@@ -17,3 +17,8 @@ keystore.properties
 google-services.json
 node_modules/
 icon/originals/
+
+# Runtime SQLite databases — build via assets/importer ETL (see docs/DATABASE-ASSETS.md)
+assets/medipro.db
+assets/output/*.db
+app/src/main/assets/databases/*.db
