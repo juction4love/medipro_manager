@@ -23,6 +23,15 @@ enum class ReportTab(val label: String) {
     AUDIT("Audit"),
 }
 
+/** Basic reports (Free). Pro tabs trigger subscription when not licensed. */
+fun ReportTab.requiredPremiumFeature(): com.medipro.manager.domain.licensing.PremiumFeature? =
+    when (this) {
+        ReportTab.FINANCIAL -> com.medipro.manager.domain.licensing.PremiumFeature.PROFIT_ANALYTICS
+        ReportTab.MEDICINE -> com.medipro.manager.domain.licensing.PremiumFeature.ADVANCED_REPORTS
+        ReportTab.AUDIT -> com.medipro.manager.domain.licensing.PremiumFeature.AUDIT_EXPORT
+        else -> null
+    }
+
 data class KpiUi(val label: String, val value: String)
 
 data class ReportsState(
@@ -56,4 +65,5 @@ fun RankedRow.toUi(primaryFormatter: (RankedRow) -> String): RankedRowUi =
 
 sealed class ReportsEvent {
     data class ShareExport(val filePath: String, val mimeType: String) : ReportsEvent()
+    data object RequirePremium : ReportsEvent()
 }

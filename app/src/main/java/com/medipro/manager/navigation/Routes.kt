@@ -5,8 +5,12 @@ import com.medipro.manager.core.designsystem.navigation.BottomNavTab
 object Routes {
     // ── Root graph (auth flow) ──────────────────────────────────────────────
     const val SPLASH = "splash"
+    const val LOGIN = "login"
     const val LICENSE = "license"
+    /** In-app license activation (subscribe / import). */
+    const val LICENSE_ACTIVATION = LICENSE
     const val LICENSE_EXPIRED = "license_expired"
+    const val SUBSCRIPTION = "subscription"
     /** App lock / PIN — "Activation" in product navigation docs. */
     const val APP_LOCK = "app_lock"
     const val ACTIVATION = APP_LOCK

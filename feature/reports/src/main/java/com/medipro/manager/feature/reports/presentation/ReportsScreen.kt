@@ -64,6 +64,7 @@ fun ReportsScreen(
     onBack: () -> Unit,
     onOpenDrawer: (() -> Unit)? = null,
     onOpenGlobalSearch: (() -> Unit)? = null,
+    onRequireSubscription: () -> Unit = {},
     viewModel: ReportsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -83,6 +84,7 @@ fun ReportsScreen(
                     }
                     context.startActivity(Intent.createChooser(intent, "Share Report"))
                 }
+                ReportsEvent.RequirePremium -> onRequireSubscription()
             }
         }
     }

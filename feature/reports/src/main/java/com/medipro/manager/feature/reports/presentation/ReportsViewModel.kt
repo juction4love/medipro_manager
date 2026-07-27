@@ -17,6 +17,7 @@ import com.medipro.manager.domain.usecase.reports.GetPurchaseReportUseCase
 import com.medipro.manager.domain.usecase.reports.GetReportDashboardSummaryUseCase
 import com.medipro.manager.domain.usecase.reports.GetSalesReportUseCase
 import com.medipro.manager.domain.usecase.reports.GetSupplierReportUseCase
+import com.medipro.manager.domain.usecase.license.CanAccessPremiumFeatureUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +41,7 @@ class ReportsViewModel @Inject constructor(
     private val getMedicineAnalytics: GetMedicineAnalyticsUseCase,
     private val getAuditReport: GetAuditReportUseCase,
     private val exportReport: ExportReportUseCase,
+    private val canAccessPremium: CanAccessPremiumFeatureUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(ReportsState())
@@ -107,13 +109,33 @@ class ReportsViewModel @Inject constructor(
     fun dismissCustomDatePicker() = _state.update { it.copy(showCustomDatePicker = false) }
 
     fun onTabSelected(tab: ReportTab) {
+        tab.requiredPremiumFeature()?.let { feature ->
+            if (!canAccessPremium(feature)) {
+                viewModelScope.launch { _events.emit(ReportsEvent.RequirePremium) }
+                return
+            }
+        }
         _state.update { it.copy(selectedTab = tab) }
         loadTab(tab)
     }
 
-    fun exportCsv() = export(ExportFormat.CSV)
+    fun exportCsv() {
+        if (!canExportCurrentTab()) return
+        export(ExportFormat.CSV)
+    }
 
-    fun exportPdf() = export(ExportFormat.PDF)
+    fun exportPdf() {
+        if (!canExportCurrentTab()) return
+        export(ExportFormat.PDF)
+    }
+
+    private fun canExportCurrentTab(): Boolean {
+        val feature = _state.value.selectedTab.requiredPremiumFeature()
+            ?: return true
+        if (canAccessPremium(feature)) return true
+        viewModelScope.launch { _events.emit(ReportsEvent.RequirePremium) }
+        return false
+    }
 
     private fun loadOverview() {
         val current = _state.value

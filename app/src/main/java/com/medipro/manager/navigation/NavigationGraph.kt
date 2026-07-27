@@ -5,8 +5,9 @@ package com.medipro.manager.navigation
  *
  * ```
  * Root Graph
- * ├── Splash
- * ├── License (+ LicenseExpired)
+ * ├── Splash (background license check)
+ * ├── Login (first install / signed out)
+ * ├── Subscription / License Activation (premium only)
  * ├── Activation (App Lock)
  * └── Main Graph
  *     ├── DashboardGraph  → Dashboard, Settings, Customer, …
@@ -25,8 +26,10 @@ object NavigationGraph {
 
     val AUTH_ROUTES = setOf(
         Routes.SPLASH,
+        Routes.LOGIN,
         Routes.LICENSE,
         Routes.LICENSE_EXPIRED,
+        Routes.SUBSCRIPTION,
         Routes.ACTIVATION,
     )
 

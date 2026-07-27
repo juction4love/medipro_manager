@@ -7,7 +7,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
+import com.medipro.manager.BuildConfig
 import com.medipro.manager.core.designsystem.component.FeaturePlaceholderScreen
+import com.medipro.manager.domain.licensing.PremiumFeature
+import com.medipro.manager.feature.license.presentation.PremiumGatedScreen
+import com.medipro.manager.feature.license.presentation.SubscriptionScreen
 import com.medipro.manager.domain.model.GlobalSearchCategory
 import com.medipro.manager.feature.accounting.presentation.AccountingPlaceholderScreen
 import com.medipro.manager.feature.accounting.presentation.AccountingScreen
@@ -102,6 +106,7 @@ private fun NavGraphBuilder.dashboardGraph(navController: NavHostController) {
                 },
                 onOpenDrawer = LocalDrawerOpener.current,
                 onOpenGlobalSearch = LocalGlobalSearchOpener.current,
+                onOpenSubscription = { navController.navigateInApp(Routes.SUBSCRIPTION) },
             )
         }
         composable(Routes.NOTIFICATION) {
@@ -187,14 +192,24 @@ private fun NavGraphBuilder.dashboardGraph(navController: NavHostController) {
             )
         }
         composable(Routes.BACKUP) {
-            BackupScreen(onBack = { navController.popBackStack() })
+            PremiumGatedScreen(
+                feature = PremiumFeature.BACKUP_RESTORE,
+                onRequireSubscription = { navController.navigateInApp(Routes.SUBSCRIPTION) },
+            ) {
+                BackupScreen(onBack = { navController.popBackStack() })
+            }
         }
         composable(Routes.CLOUD_SYNC) {
-            FeaturePlaceholderScreen(
-                title = "Cloud Sync",
-                description = "Sync pharmacy data with Firestore when online.",
-                onBack = { navController.popBackStack() },
-            )
+            PremiumGatedScreen(
+                feature = PremiumFeature.CLOUD_SYNC,
+                onRequireSubscription = { navController.navigateInApp(Routes.SUBSCRIPTION) },
+            ) {
+                FeaturePlaceholderScreen(
+                    title = "Cloud Sync",
+                    description = "Sync pharmacy data with Firestore when online.",
+                    onBack = { navController.popBackStack() },
+                )
+            }
         }
         composable(Routes.THERMAL_PRINTER) {
             PrinterSettingsScreen(
@@ -203,11 +218,11 @@ private fun NavGraphBuilder.dashboardGraph(navController: NavHostController) {
             )
         }
         composable(Routes.LICENSE_INFO) {
-            FeaturePlaceholderScreen(
-                title = "License & Subscription",
-                description = "Full license management (import, renew, features) arrives in MediPro v2. " +
-                    "Current v1.1.34 activation uses Firebase OTP at first install.",
+            SubscriptionScreen(
+                appVersion = BuildConfig.VERSION_NAME,
                 onBack = { navController.popBackStack() },
+                onSubscribe = { navController.navigateInApp(Routes.LICENSE) },
+                onImportLicense = { navController.navigateInApp(Routes.LICENSE) },
             )
         }
         composable(Routes.HELP) {
@@ -232,7 +247,12 @@ private fun NavGraphBuilder.dashboardGraph(navController: NavHostController) {
             )
         }
         composable(Routes.OCR_LEARNING) {
-            OcrLearningScreen(onBack = { navController.popBackStack() })
+            PremiumGatedScreen(
+                feature = PremiumFeature.OCR_LEARNING,
+                onRequireSubscription = { navController.navigateInApp(Routes.SUBSCRIPTION) },
+            ) {
+                OcrLearningScreen(onBack = { navController.popBackStack() })
+            }
         }
         composable(Routes.PROFILE) {
             ProfileScreen(onBack = { navController.popBackStack() })
@@ -314,6 +334,7 @@ private fun NavGraphBuilder.purchaseGraph(navController: NavHostController) {
                 onOpenPurchaseInvoice = { invoiceNumber ->
                     navController.navigateInApp("purchase_invoice/$invoiceNumber")
                 },
+                onRequireSubscription = { navController.navigateInApp(Routes.SUBSCRIPTION) },
             )
         }
         composable(
@@ -411,6 +432,7 @@ private fun NavGraphBuilder.reportsGraph(navController: NavHostController) {
                 onBack = { navController.popBackStack() },
                 onOpenDrawer = LocalDrawerOpener.current,
                 onOpenGlobalSearch = LocalGlobalSearchOpener.current,
+                onRequireSubscription = { navController.navigateInApp(Routes.SUBSCRIPTION) },
             )
         }
     }

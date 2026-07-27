@@ -10,6 +10,7 @@ import com.medipro.manager.data.remote.VerifyLicenseRequest
 import com.medipro.manager.data.remote.toDomain
 import com.medipro.manager.domain.model.License
 import com.medipro.manager.domain.model.LicenseStatus
+import com.medipro.manager.domain.licensing.LicenseAccessState
 import com.medipro.manager.domain.repository.LicenseRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -29,6 +30,21 @@ class LicenseRepositoryImpl @Inject constructor(
 
     override suspend fun getLicense(): License? =
         licenseCacheManager.get() ?: licenseDao.get()?.toDomain()
+
+    override suspend fun getAccessState(deviceId: String): LicenseAccessState {
+        val license = getLicense() ?: return LicenseAccessState.NO_LICENSE
+        if (license.isExpired || license.status == LicenseStatus.EXPIRED) {
+            return LicenseAccessState.EXPIRED
+        }
+        if (!validateLocal(license, deviceId)) {
+            return LicenseAccessState.NO_LICENSE
+        }
+        return if (license.daysRemaining <= EXPIRING_THRESHOLD_DAYS) {
+            LicenseAccessState.EXPIRING_SOON
+        } else {
+            LicenseAccessState.VALID
+        }
+    }
 
     override suspend fun saveLicense(license: License) {
         licenseDao.insert(license.toEntity())
@@ -112,5 +128,6 @@ class LicenseRepositoryImpl @Inject constructor(
     companion object {
         /** Re-verify with server every 14 days when online. */
         const val SYNC_INTERVAL_MS = 14L * 24 * 60 * 60 * 1000
+        const val EXPIRING_THRESHOLD_DAYS = 30
     }
 }

@@ -251,6 +251,7 @@ data class License(
 
 object LicensePlan {
     const val FREE = "FREE"
+    const val PRO = "PRO"
 }
 
 object LicenseStatus {

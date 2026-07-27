@@ -64,4 +64,5 @@ sealed interface PurchaseEvent {
     data class ShowError(val message: String) : PurchaseEvent
     data class PurchaseCompleted(val invoiceNumber: String) : PurchaseEvent
     data class OpenExistingPurchase(val invoiceNumber: String) : PurchaseEvent
+    data object RequirePremium : PurchaseEvent
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.medipro.manager.core.common.FormatUtils
 import com.medipro.manager.domain.usecase.dashboard.ObserveDashboardUseCase
+import com.medipro.manager.domain.usecase.license.ObserveLicenseAccessStateUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
     private val observeDashboard: ObserveDashboardUseCase,
+    observeLicenseAccessState: ObserveLicenseAccessStateUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(DashboardState())
@@ -27,6 +29,11 @@ class DashboardViewModel @Inject constructor(
     val events: SharedFlow<DashboardEvent> = _events.asSharedFlow()
 
     init {
+        viewModelScope.launch {
+            observeLicenseAccessState().collect { accessState ->
+                _state.update { it.copy(licenseAccessState = accessState) }
+            }
+        }
         viewModelScope.launch {
             observeDashboard().collect { snapshot ->
                 val stats = snapshot.stats

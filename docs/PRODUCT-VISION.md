@@ -8,6 +8,45 @@ MediPro must let a pharmacy run **100–500 bills per day** without stock mismat
 
 ---
 
+## Freemium Model (Community Edition) ⭐⭐⭐⭐⭐
+
+**Goal:** Let pharmacies experience MediPro reliability on the free tier; upgrade only when they need Pro productivity.
+
+### Free Plan (unlimited daily use)
+
+Manual Purchase · Sales / POS · Stock Management · Purchase Return · Sales Return · Stock Adjustment · Batch & FEFO · Basic Dashboard · Basic Reports · Local Database
+
+### Pro Plan
+
+OCR Purchase Invoice · Cloud Backup / Restore · Cloud Sync · Advanced Reports · Profit Analytics · Multi-user / Staff Roles · Audit Export (Excel/PDF) · Barcode Bulk Import · OCR / AI Learning · Priority Support
+
+### Trial strategy
+
+```
+Install → Free Plan (unlimited) → Daily workflow → Attempt Pro feature → Subscription → Upgrade
+```
+
+**Upgrade popup only when user taps:**
+
+- OCR Purchase Invoice scan  
+- Cloud Backup / Sync  
+- Advanced Reports / Profit Analytics / Audit export  
+- Multi-user (when implemented)  
+
+**Never** show subscription popup during manual purchase, sales checkout, or stock adjustment.
+
+### Editions (same codebase)
+
+| Edition | License model |
+|---------|----------------|
+| **MediPro Community** | Free + Pro subscription (Play Store) |
+| **MediPro Professional** | Paid subscription required |
+| **MediPro Enterprise** | Distributor offline license (`.lic` / QR) |
+
+Community Edition uses background license check + premium gates. Enterprise can enable offline signed license via build flavor without blocking core workflow.
+
+---
+
 ## Out of Scope (v1.x) ⭐⭐⭐⭐⭐
 
 The following features are **intentionally excluded** until the core workflow  

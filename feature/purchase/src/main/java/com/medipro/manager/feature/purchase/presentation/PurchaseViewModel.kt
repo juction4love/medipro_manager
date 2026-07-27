@@ -29,6 +29,8 @@ import com.medipro.manager.domain.usecase.purchase.SearchMedicinesForPurchaseUse
 import com.medipro.manager.domain.usecase.purchase.UpdateMedicineMrpFromBillUseCase
 import com.medipro.manager.domain.usecase.supplier.AddSupplierUseCase
 import com.medipro.manager.domain.usecase.supplier.ObserveSuppliersUseCase
+import com.medipro.manager.domain.usecase.license.CanAccessPremiumFeatureUseCase
+import com.medipro.manager.domain.licensing.PremiumFeature
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -61,6 +63,7 @@ class PurchaseViewModel @Inject constructor(
     private val generateInvoiceNumber: GeneratePurchaseInvoiceNumberUseCase,
     private val createPurchase: CreatePurchaseUseCase,
     private val observeSuppliers: ObserveSuppliersUseCase,
+    private val canAccessPremium: CanAccessPremiumFeatureUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(PurchaseState())
@@ -100,8 +103,16 @@ class PurchaseViewModel @Inject constructor(
 
     fun toggleBarcodeScanner(show: Boolean) = _state.update { it.copy(showBarcodeScanner = show) }
 
-    fun toggleBillScanner(show: Boolean) = _state.update {
-        it.copy(showBillScanner = show, errorMessage = null)
+    fun toggleBillScanner(show: Boolean) {
+        if (!show) {
+            _state.update { it.copy(showBillScanner = false, errorMessage = null) }
+            return
+        }
+        if (canAccessPremium(PremiumFeature.OCR_PURCHASE)) {
+            _state.update { it.copy(showBillScanner = true, errorMessage = null) }
+        } else {
+            viewModelScope.launch { _events.emit(PurchaseEvent.RequirePremium) }
+        }
     }
 
     fun onBillCaptureComplete(imageUris: List<android.net.Uri>) {

@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.medipro.manager.domain.usecase.license.ActivateLicenseWithOtpUseCase
+import com.medipro.manager.domain.usecase.license.RefreshLicenseInBackgroundUseCase
 import com.medipro.manager.domain.usecase.license.VerifyLicenseUseCase
 import com.medipro.manager.feature.license.auth.PhoneAuthErrorMapper
 import com.medipro.manager.feature.license.auth.PhoneAuthHelper
@@ -41,6 +42,7 @@ class LicenseViewModel @Inject constructor(
     private val phoneAuthHelper: PhoneAuthHelper,
     private val activateLicenseWithOtpUseCase: ActivateLicenseWithOtpUseCase,
     private val verifyLicenseUseCase: VerifyLicenseUseCase,
+    private val refreshLicenseInBackground: RefreshLicenseInBackgroundUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(LicenseUiState(devMode = !phoneAuthHelper.isFirebaseAvailable()))
@@ -163,6 +165,7 @@ class LicenseViewModel @Inject constructor(
                 pharmacyName = current.pharmacyName.trim(),
                 ownerName = current.ownerName.trim(),
             ).onSuccess { license ->
+                refreshLicenseInBackground(deviceId)
                 _state.update {
                     it.copy(
                         isLoading = false,

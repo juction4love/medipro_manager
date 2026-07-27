@@ -29,6 +29,9 @@ class PhoneAuthHelper @Inject constructor(
     fun isFirebaseAvailable(): Boolean =
         !licenseEnvironment.useDevLicensing && runCatching { FirebaseApp.getInstance() }.isSuccess
 
+    fun isSignedIn(): Boolean =
+        licenseEnvironment.useDevLicensing || auth?.currentUser != null
+
     suspend fun sendOtp(mobileNumber: String, activity: Activity): Result<OtpSendResult> {
         if (licenseEnvironment.useDevLicensing || !isFirebaseAvailable()) {
             return Result.success(OtpSendResult(verificationId = DEV_VERIFICATION_ID))

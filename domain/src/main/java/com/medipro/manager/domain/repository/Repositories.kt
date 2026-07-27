@@ -26,6 +26,7 @@ interface LicenseRepository {
     fun observeLicense(): Flow<com.medipro.manager.domain.model.License?>
     suspend fun getLicense(): com.medipro.manager.domain.model.License?
     suspend fun saveLicense(license: com.medipro.manager.domain.model.License)
+    suspend fun getAccessState(deviceId: String): com.medipro.manager.domain.licensing.LicenseAccessState
     suspend fun isLicenseValid(deviceId: String): Boolean
     suspend fun isLicenseExpired(): Boolean
     suspend fun activateFromServer(

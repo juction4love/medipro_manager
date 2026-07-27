@@ -4,9 +4,8 @@ import android.provider.Settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.medipro.manager.core.security.AppLockManager
-import com.medipro.manager.domain.usecase.license.IsLicenseExpiredUseCase
-import com.medipro.manager.domain.usecase.license.SyncLicenseUseCase
-import com.medipro.manager.domain.usecase.license.VerifyLicenseUseCase
+import com.medipro.manager.domain.usecase.license.RefreshLicenseInBackgroundUseCase
+import com.medipro.manager.feature.license.auth.PhoneAuthHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import android.content.Context
@@ -20,9 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val verifyLicense: VerifyLicenseUseCase,
-    private val isLicenseExpired: IsLicenseExpiredUseCase,
-    private val syncLicense: SyncLicenseUseCase,
+    private val refreshLicenseInBackground: RefreshLicenseInBackgroundUseCase,
+    private val phoneAuthHelper: PhoneAuthHelper,
     private val appLockManager: AppLockManager,
 ) : ViewModel() {
 
@@ -34,18 +32,14 @@ class SplashViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val hasValidLicense = verifyLicense(deviceId)
-            if (!hasValidLicense) {
-                _destination.value = if (isLicenseExpired()) {
-                    SplashDestination.LICENSE_EXPIRED
-                } else {
-                    SplashDestination.LICENSE
-                }
+            // Silent background license check — no blocking popup.
+            refreshLicenseInBackground(deviceId)
+
+            val needsLogin = !phoneAuthHelper.isSignedIn()
+            if (needsLogin) {
+                _destination.value = SplashDestination.LOGIN
                 return@launch
             }
-
-            // Background sync when online (graceful offline fallback inside repository)
-            syncLicense(deviceId)
 
             val lockEnabled = appLockManager.isLockEnabled.first()
             _destination.value = if (lockEnabled) {
@@ -58,5 +52,5 @@ class SplashViewModel @Inject constructor(
 }
 
 enum class SplashDestination {
-    LOADING, LICENSE, LICENSE_EXPIRED, APP_LOCK, DASHBOARD
+    LOADING, LOGIN, APP_LOCK, DASHBOARD
 }

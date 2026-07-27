@@ -1,6 +1,7 @@
 package com.medipro.manager.feature.dashboard.presentation
 
 import com.medipro.manager.domain.model.AlertSeverity
+import com.medipro.manager.domain.licensing.LicenseAccessState
 
 data class DashboardState(
     val isLoading: Boolean = true,
@@ -69,6 +70,7 @@ data class DashboardState(
     val licensePlan: String = "Free",
     val licenseValidUntil: String? = null,
     val licenseLastVerified: String? = null,
+    val licenseAccessState: LicenseAccessState = LicenseAccessState.NO_LICENSE,
 )
 
 data class AlertUi(

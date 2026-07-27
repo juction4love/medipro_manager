@@ -81,6 +81,7 @@ import com.medipro.manager.core.designsystem.component.MediProScreenWithFab
 import com.medipro.manager.core.designsystem.navigation.MediProGlobalSearchIcon
 import com.medipro.manager.core.designsystem.navigation.MediProTopBarNavigationIcon
 import com.medipro.manager.domain.model.AlertSeverity
+import com.medipro.manager.domain.licensing.LicenseAccessState
 
 private data class SpeedDialAction(
     val title: String,
@@ -103,6 +104,7 @@ fun DashboardScreen(
     onOpenDrawer: (() -> Unit)? = null,
     onOpenGlobalSearch: (() -> Unit)? = null,
     onOpenInvoice: (Long) -> Unit = { onNavigate("sales") },
+    onOpenSubscription: () -> Unit = { onNavigate("subscription") },
     viewModel: DashboardViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -148,6 +150,14 @@ fun DashboardScreen(
                     contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 24.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
                 ) {
+                    if (state.licenseAccessState == LicenseAccessState.EXPIRING_SOON) {
+                        item {
+                            LicenseExpiryBanner(
+                                daysRemaining = state.licenseDaysRemaining,
+                                onRenew = onOpenSubscription,
+                            )
+                        }
+                    }
                     item { CashInHandHero(state.cashInDrawer, state.dateLabel) }
                     item { QuickActionsSection(onNavigate = { route -> viewModel.onFeatureClick(route) }) }
                     item { KpiSection("Today", todayOverviewKpis(state)) }
@@ -373,6 +383,39 @@ private fun InventoryMetricRow(label: String, value: String) {
     ) {
         Text(label, style = MaterialTheme.typography.bodyLarge)
         Text(value, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun LicenseExpiryBanner(
+    daysRemaining: Int?,
+    onRenew: () -> Unit,
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.tertiaryContainer),
+        onClick = onRenew,
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(14.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(Icons.Default.Warning, contentDescription = null, tint = MaterialTheme.colorScheme.tertiary)
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    "License expiring soon",
+                    style = MaterialTheme.typography.titleSmall,
+                    fontWeight = FontWeight.SemiBold,
+                )
+                Text(
+                    daysRemaining?.let { "$it days left — tap to renew" }
+                        ?: "Renew before premium features lock",
+                    style = MaterialTheme.typography.bodySmall,
+                )
+            }
+        }
     }
 }
 

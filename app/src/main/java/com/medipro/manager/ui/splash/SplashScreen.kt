@@ -21,8 +21,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(
-    onNavigateToLicense: () -> Unit,
-    onNavigateToExpiredLicense: () -> Unit,
+    onNavigateToLogin: () -> Unit,
     onNavigateToAppLock: () -> Unit,
     onNavigateToDashboard: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel()
@@ -32,8 +31,7 @@ fun SplashScreen(
     LaunchedEffect(destination) {
         delay(800)
         when (destination) {
-            SplashDestination.LICENSE -> onNavigateToLicense()
-            SplashDestination.LICENSE_EXPIRED -> onNavigateToExpiredLicense()
+            SplashDestination.LOGIN -> onNavigateToLogin()
             SplashDestination.APP_LOCK -> onNavigateToAppLock()
             SplashDestination.DASHBOARD -> onNavigateToDashboard()
             SplashDestination.LOADING -> Unit

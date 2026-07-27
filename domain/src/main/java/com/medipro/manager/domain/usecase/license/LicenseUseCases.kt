@@ -1,5 +1,8 @@
 package com.medipro.manager.domain.usecase.license
 
+import com.medipro.manager.domain.licensing.LicenseAccessState
+import com.medipro.manager.domain.licensing.LicenseManager
+import com.medipro.manager.domain.licensing.PremiumFeature
 import com.medipro.manager.domain.model.License
 import com.medipro.manager.domain.repository.LicenseRepository
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +18,36 @@ class GetLicenseUseCase @Inject constructor(
     private val repository: LicenseRepository
 ) {
     suspend operator fun invoke(): License? = repository.getLicense()
+}
+
+class GetLicenseAccessStateUseCase @Inject constructor(
+    private val repository: LicenseRepository
+) {
+    suspend operator fun invoke(deviceId: String): LicenseAccessState =
+        repository.getAccessState(deviceId)
+}
+
+class ObserveLicenseAccessStateUseCase @Inject constructor(
+    private val licenseManager: LicenseManager,
+) {
+    operator fun invoke(): Flow<LicenseAccessState> =
+        licenseManager.accessState
+}
+
+class CanAccessPremiumFeatureUseCase @Inject constructor(
+    private val licenseManager: LicenseManager,
+) {
+    operator fun invoke(feature: PremiumFeature): Boolean =
+        licenseManager.canAccessPremiumFeature(feature)
+
+    suspend fun check(deviceId: String, feature: PremiumFeature): Boolean =
+        licenseManager.checkPremiumFeature(deviceId, feature)
+}
+
+class RefreshLicenseInBackgroundUseCase @Inject constructor(
+    private val licenseManager: LicenseManager,
+) {
+    suspend operator fun invoke(deviceId: String) = licenseManager.refreshInBackground(deviceId)
 }
 
 class VerifyLicenseUseCase @Inject constructor(

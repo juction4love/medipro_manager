@@ -75,6 +75,7 @@ fun PurchaseScreen(
     onOpenGlobalSearch: (() -> Unit)? = null,
     onOpenHistory: () -> Unit = {},
     onOpenPurchaseInvoice: (String) -> Unit = {},
+    onRequireSubscription: () -> Unit = {},
     viewModel: PurchaseViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -86,6 +87,7 @@ fun PurchaseScreen(
                 is PurchaseEvent.ShowError -> snackbar.showSnackbar(event.message)
                 is PurchaseEvent.PurchaseCompleted -> snackbar.showSnackbar("Purchase saved: ${event.invoiceNumber}")
                 is PurchaseEvent.OpenExistingPurchase -> onOpenPurchaseInvoice(event.invoiceNumber)
+                PurchaseEvent.RequirePremium -> onRequireSubscription()
             }
         }
     }

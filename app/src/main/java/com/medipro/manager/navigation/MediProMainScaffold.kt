@@ -79,7 +79,7 @@ fun MediProMainScaffold(
                     },
                     onLogout = {
                         scope.launch { drawerState.close() }
-                        navController.navigate(Routes.LICENSE) {
+                        navController.navigate(Routes.LOGIN) {
                             popUpTo(0) { inclusive = true }
                         }
                     },
